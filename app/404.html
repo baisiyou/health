@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found</title>
+    <script>
+        // Redirect to /health/ for GitHub Pages
+        const currentPath = window.location.pathname;
+        const healthPath = '/health' + currentPath;
+        
+        // Check if we're on GitHub Pages
+        if (window.location.hostname === 'baisiyou.github.io') {
+            // Redirect to /health/ path
+            window.location.href = healthPath;
+        } else {
+            // For local development, redirect to app/
+            window.location.href = './app' + currentPath;
+        }
+    </script>
+</head>
+<body>
+    <p>Redirecting to <a href="/health/">HealthSync AI</a>...</p>
+</body>
+</html>
+
