@@ -158,7 +158,7 @@
             </div>
             
             <button type="submit" class="btn btn-primary">Create Account</button>
-            <a href="/login.html" onclick="event.preventDefault(); const basePath = window.location.hostname === 'baisiyou.github.io' ? '/health' : ''; window.location.href = basePath + '/login.html'; return false;" class="btn btn-secondary" style="text-align: center; text-decoration: none; display: block;">Already have an account? Login</a>
+            <a href="./login.html" class="btn btn-secondary" style="text-align: center; text-decoration: none; display: block;">Already have an account? Login</a>
         </form>
         
         <div id="status" class="status"></div>
@@ -267,23 +267,6 @@
             } else {
                 this.style.borderColor = '#28a745';
                 document.getElementById('status').style.display = 'none';
-            }
-        });
-    </script>
-    
-    <script>
-        // Ensure login link is fixed for GitHub Pages
-        document.addEventListener('DOMContentLoaded', function() {
-            const loginLink = document.querySelector('a[href="/login.html"]');
-            if (loginLink) {
-                const basePath = window.location.hostname === 'baisiyou.github.io' ? '/health' : '';
-                loginLink.setAttribute('href', basePath + '/login.html');
-                // Also fix onclick handler
-                loginLink.onclick = function(e) {
-                    e.preventDefault();
-                    window.location.href = basePath + '/login.html';
-                    return false;
-                };
             }
         });
     </script>
