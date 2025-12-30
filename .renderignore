@@ -1,0 +1,12 @@
+# Render ignore file
+node_modules/
+*.log
+.env
+.env.local
+keys.env
+.local_model/
+*.pid
+*.swp
+*.swo
+*~
+.DS_Store

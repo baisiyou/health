@@ -8,9 +8,10 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js";
 window.supabase = null;
 async function initializeSupabase() {
     try {
-        const isLocal = window.location.hostname === "localhost";
-        if (isLocal) {
-            const response = await fetch("http://localhost:5000/keys");
+        // Use dynamic API config if available
+        const keysUrl = (window.apiConfig && window.apiConfig.getSupabaseKeysUrl()) || 
+                       (window.location.hostname === "localhost" ? "http://localhost:5001/keys" : "/keys");
+        const response = await fetch(keysUrl);
             const { SUPABASE_URL, SUPABASE_KEY } = await response.json();
 
             supabase = createClient(SUPABASE_URL, SUPABASE_KEY);

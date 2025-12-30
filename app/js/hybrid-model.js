@@ -5,7 +5,8 @@
 
 class HybridModelSystem {
     constructor() {
-        this.apiBaseUrl = 'http://localhost:8000';
+        // Use dynamic API config if available, otherwise fallback to localhost
+        this.apiBaseUrl = (window.apiConfig && window.apiConfig.getHybridApiUrl()) || 'http://localhost:8000';
         this.isConnected = false;
         this.medicalKnowledgeBase = this.initializeMedicalKB();
         this.init();
@@ -752,8 +753,9 @@ async function performHybridAnalysis() {
 
         console.log('Sending API data:', apiData);
 
-        // Call API directly
-        const response = await fetch('http://localhost:8000/analyze', {
+        // Call API directly - use dynamic API URL
+        const apiUrl = (window.apiConfig && window.apiConfig.getHybridApiUrl()) || 'http://localhost:8000';
+        const response = await fetch(`${apiUrl}/analyze`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

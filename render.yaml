@@ -1,0 +1,48 @@
+services:
+  # Backend API Service - Provides Supabase keys and other backend services
+  - type: web
+    name: healthsync-backend-api
+    env: node
+    rootDir: app
+    buildCommand: npm install
+    startCommand: node server.mjs
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Add your Supabase credentials here
+      # - key: SUPABASE_URL
+      #   sync: false
+      # - key: SUPABASE_KEY
+      #   sync: false
+
+  # Hybrid Model API Service - AI model inference endpoint
+  - type: web
+    name: healthsync-hybrid-api
+    env: node
+    rootDir: app
+    buildCommand: npm install
+    startCommand: node hybrid-api.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+  # Frontend Web Service - Static website with API config injection
+  - type: web
+    name: healthsync-frontend
+    env: node
+    rootDir: app
+    buildCommand: npm install
+    startCommand: node server-static.mjs
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: BACKEND_API_URL
+        fromService:
+          type: web
+          name: healthsync-backend-api
+          property: host
+      - key: HYBRID_API_URL
+        fromService:
+          type: web
+          name: healthsync-hybrid-api
+          property: host

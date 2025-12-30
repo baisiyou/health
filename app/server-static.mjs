@@ -1,0 +1,115 @@
+// Static file server with API configuration injection
+import express from 'express';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import { readFileSync, existsSync } from 'fs';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const app = express();
+const PORT = process.env.PORT || 8080;
+
+// Get API URLs from environment variables
+// Render will set these via fromService in render.yaml
+const BACKEND_API_URL = process.env.BACKEND_API_URL || 'http://localhost:5001';
+const HYBRID_API_URL = process.env.HYBRID_API_URL || 'http://localhost:8000';
+
+// Ensure URLs have protocol
+const ensureProtocol = (url) => {
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        return `https://${url}`;
+    }
+    return url;
+};
+
+const backendUrl = ensureProtocol(BACKEND_API_URL);
+const hybridUrl = ensureProtocol(HYBRID_API_URL);
+
+// API configuration endpoint (JSON) - available before HTML loads
+app.get('/api/config', (req, res) => {
+    res.json({
+        backendApiUrl: backendUrl,
+        hybridApiUrl: hybridUrl
+    });
+});
+
+// Inject API configuration into HTML files
+app.get('*.html', (req, res, next) => {
+    const filePath = __dirname + req.path;
+    if (existsSync(filePath)) {
+        try {
+            let html = readFileSync(filePath, 'utf8');
+            
+            // Inject API configuration script before </head>
+            const configScript = `
+    <script>
+        window.API_CONFIG = {
+            backendApiUrl: '${backendUrl}',
+            hybridApiUrl: '${hybridUrl}'
+        };
+    </script>`;
+            
+            if (html.includes('</head>')) {
+                html = html.replace('</head>', configScript + '</head>');
+            } else if (html.includes('</body>')) {
+                html = html.replace('</body>', configScript + '</body>');
+            }
+            
+            res.setHeader('Content-Type', 'text/html');
+            res.send(html);
+        } catch (error) {
+            console.error('Error reading HTML file:', error);
+            next();
+        }
+    } else {
+        next();
+    }
+});
+
+// Serve static files for non-HTML assets (CSS, JS, images, etc.)
+// This must come after HTML handler
+app.use(express.static(__dirname));
+
+// Catch-all for SPA routing - serve index.html
+app.get('*', (req, res) => {
+    // Skip if it's already an HTML file or API endpoint
+    if (req.path.endsWith('.html') || req.path.startsWith('/api/')) {
+        return;
+    }
+    
+    const indexPath = __dirname + '/index.html';
+    if (existsSync(indexPath)) {
+        try {
+            let html = readFileSync(indexPath, 'utf8');
+            
+            const configScript = `
+    <script>
+        window.API_CONFIG = {
+            backendApiUrl: '${backendUrl}',
+            hybridApiUrl: '${hybridUrl}'
+        };
+    </script>`;
+            
+            if (html.includes('</head>')) {
+                html = html.replace('</head>', configScript + '</head>');
+            } else if (html.includes('</body>')) {
+                html = html.replace('</body>', configScript + '</body>');
+            }
+            
+            res.setHeader('Content-Type', 'text/html');
+            res.send(html);
+        } catch (error) {
+            console.error('Error reading index.html:', error);
+            res.status(500).send('Internal server error');
+        }
+    } else {
+        res.status(404).send('Not found');
+    }
+});
+
+app.listen(PORT, () => {
+    console.log(`Frontend server running on port ${PORT}`);
+    console.log(`Backend API URL: ${backendUrl}`);
+    console.log(`Hybrid API URL: ${hybridUrl}`);
+});
