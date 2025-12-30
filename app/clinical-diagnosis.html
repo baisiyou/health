@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="/assets/logo.svg">
+    <link rel="icon" type="image/x-icon" href="./assets/logo.svg">
     <title>Clinical Diagnosis - HealthSync AI</title>
+    <script src='./js/base-path.js'></script>
+    <script src='./js/path-helper.js'></script>
     <style>
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
@@ -511,7 +513,12 @@
                 // Fetch patient data from Supabase
                 await fetchAndFillPatientData(userData);
             } else {
-                window.location.href = '/login.html';
+                if (window.redirect) {
+                    window.redirect('/login.html');
+                } else {
+                    const basePath = window.location.hostname === 'baisiyou.github.io' ? '/health' : '';
+                    window.location.href = basePath + '/login.html';
+                }
             }
         }
         
@@ -691,7 +698,12 @@
         // Logout function
         function logout() {
             localStorage.removeItem('user');
-            window.location.href = '/login.html';
+            if (window.redirect) {
+                window.redirect('/login.html');
+            } else {
+                const basePath = window.location.hostname === 'baisiyou.github.io' ? '/health' : '';
+                window.location.href = basePath + '/login.html';
+            }
         }
         
         // Display status messages
