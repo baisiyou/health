@@ -3,9 +3,8 @@ services:
   - type: web
     name: healthsync-backend-api
     env: node
-    rootDir: app
-    buildCommand: npm install
-    startCommand: node server.mjs
+    buildCommand: cd app && npm install
+    startCommand: cd app && node server.mjs
     envVars:
       - key: NODE_ENV
         value: production
@@ -19,9 +18,8 @@ services:
   - type: web
     name: healthsync-hybrid-api
     env: node
-    rootDir: app
-    buildCommand: npm install
-    startCommand: node hybrid-api.js
+    buildCommand: cd app && npm install
+    startCommand: cd app && node hybrid-api.js
     envVars:
       - key: NODE_ENV
         value: production
@@ -30,9 +28,8 @@ services:
   - type: web
     name: healthsync-frontend
     env: node
-    rootDir: app
-    buildCommand: npm install
-    startCommand: node server-static.mjs
+    buildCommand: cd app && npm install
+    startCommand: cd app && node server-static.mjs
     envVars:
       - key: NODE_ENV
         value: production
