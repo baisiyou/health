@@ -28,6 +28,15 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
       
+      - name: Prepare deployment files
+        run: |
+          # Copy root redirect files to app directory
+          cp login.html app/login.html 2>/dev/null || true
+          # Ensure index.html exists in app directory
+          if [ ! -f app/index.html ]; then
+            echo '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0; url=/health/"><title>HealthSync AI</title></head><body><p>Redirecting...</p></body></html>' > app/index.html
+          fi
+      
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
