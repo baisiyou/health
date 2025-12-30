@@ -67,11 +67,7 @@ app.get('*.html', (req, res, next) => {
     }
 });
 
-// Serve static files for non-HTML assets (CSS, JS, images, etc.)
-// This must come after HTML handler
-app.use(express.static(__dirname));
-
-// Catch-all for root path and SPA routing - serve index.html
+// Handle root path explicitly - serve index.html
 app.get('/', (req, res) => {
     const indexPath = __dirname + '/index.html';
     if (existsSync(indexPath)) {
@@ -102,6 +98,10 @@ app.get('/', (req, res) => {
         res.status(404).send('Not found');
     }
 });
+
+// Serve static files for non-HTML assets (CSS, JS, images, etc.)
+// This must come after root and HTML handlers
+app.use(express.static(__dirname));
 
 // Catch-all for other paths - serve index.html for SPA routing
 app.get('*', (req, res, next) => {
