@@ -34,6 +34,11 @@ app.get('/api/config', (req, res) => {
     });
 });
 
+// Redirect /html/index.html to root (home page)
+app.get('/html/index.html', (req, res) => {
+    res.redirect(301, '/');
+});
+
 // Inject API configuration into HTML files
 app.get('*.html', (req, res, next) => {
     const filePath = __dirname + req.path;
