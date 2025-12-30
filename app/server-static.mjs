@@ -77,6 +77,7 @@ app.get('/', (req, res) => {
     if (existsSync(indexPath)) {
         try {
             let html = readFileSync(indexPath, 'utf8');
+            console.log('Successfully read index.html, length:', html.length);
             
             const configScript = `
     <script>
@@ -92,14 +93,17 @@ app.get('/', (req, res) => {
                 html = html.replace('</body>', configScript + '</body>');
             }
             
-            res.setHeader('Content-Type', 'text/html');
+            res.setHeader('Content-Type', 'text/html; charset=utf-8');
+            console.log('Sending HTML response, length:', html.length);
             res.send(html);
         } catch (error) {
             console.error('Error reading index.html:', error);
-            res.status(500).send('Internal server error');
+            console.error('Error stack:', error.stack);
+            res.status(500).send('Internal server error: ' + error.message);
         }
     } else {
-        res.status(404).send('Not found');
+        console.error('index.html not found at:', indexPath);
+        res.status(404).send('Not found: ' + indexPath);
     }
 });
 
