@@ -4,9 +4,9 @@
   "description": "HealthSync AI - Root package.json for Render deployment",
   "scripts": {
     "postinstall": "cd app && npm install",
-    "start:backend": "cd app && node server.mjs",
-    "start:hybrid": "cd app && node hybrid-api.js",
-    "start:frontend": "cd app && node server-static.mjs"
+    "start:backend": "sh -c 'cd app && node server.mjs'",
+    "start:hybrid": "sh -c 'cd app && node hybrid-api.js'",
+    "start:frontend": "sh -c 'cd app && node server-static.mjs'"
   },
   "private": true
 }
