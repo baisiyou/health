@@ -32,6 +32,10 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: './app'
+          exclude-paths: |
+            node_modules
+            *.md
+            .git
       
       - name: Deploy to GitHub Pages
         id: deployment
