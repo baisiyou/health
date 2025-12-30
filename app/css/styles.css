@@ -113,25 +113,34 @@ nav {
     align-items: center; /* Ensures text and image are vertically centered */
     justify-content: space-between; /* Pushes text to the left and image to the right */
     padding: 50px;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    gap: 20px; /* Adds space between text and image */
+    gap: 40px; /* Adds more space between text and image */
+    position: relative; /* For z-index layering */
 }
 
 .hero-text {
     flex: 1;
     max-width: 50%; /* Prevents text from taking full width */
+    z-index: 2; /* Ensures text stays on top */
+    position: relative; /* For z-index to work */
 }
 
 .hero-image {
     flex: 1;
     text-align: right; /* Ensures the image stays on the right */
+    z-index: 1; /* Keeps image behind text */
+    position: relative; /* For z-index to work */
+    display: flex;
+    justify-content: flex-end; /* Align image to the right */
+    align-items: center;
 }
 
 .hero-image img {
-    width: 120%;  /* Increases the size beyond the container */
-    max-width: 1400px;  /* Ensures it doesn’t get too large */
+    width: 100%;  /* Fit within the container */
+    max-width: 600px;  /* Reasonable maximum size */
     height: auto;  /* Maintains aspect ratio */
+    object-fit: contain;  /* Ensures image fits without distortion */
 }
 
 
@@ -147,7 +156,8 @@ nav {
     }
 
     .hero-image img {
-        max-width: 80%;
+        max-width: 100%;
+        width: 100%;
     }
 }
 

@@ -78,12 +78,31 @@
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
+        .login-hint {
+            background: #e7f3ff;
+            color: #004085;
+            border: 1px solid #b3d7ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .login-hint strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
         <h1 style="text-align: center; color: #007bff; margin-bottom: 30px;">🔐 HealthSync AI Login</h1>
         
+        <div class="login-hint">
+            <strong>💡 First time login?</strong>
+            <div>Username: <strong>admin</strong></div>
+            <div>Password: <strong>admin23</strong></div>
+        </div>
         
         <form id="loginForm" class="login-form">
             <div class="form-group">
@@ -133,6 +152,29 @@
             
             // Simulate login validation
             setTimeout(() => {
+                // Check for default admin credentials
+                if (username === 'admin' && password === 'admin23') {
+                    // Admin login successful
+                    localStorage.setItem('user', JSON.stringify({
+                        username: 'admin',
+                        name: 'Administrator',
+                        role: 'admin',
+                        firstName: 'Admin',
+                        lastName: 'User',
+                        organization: 'HealthSync AI',
+                        loginTime: new Date().toISOString()
+                    }));
+                    
+                    statusDiv.className = 'status success';
+                    statusDiv.innerHTML = '✅ Login successful! Redirecting...';
+                    
+                    // Redirect to Clinical Diagnosis page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = '/clinical-diagnosis.html';
+                    }, 2000);
+                    return;
+                }
+                
                 // Get user database
                 const users = getUsers();
                 
