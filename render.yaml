@@ -4,7 +4,7 @@ services:
     name: healthsync-backend-api
     env: node
     buildCommand: npm install
-    startCommand: npm run start:backend
+    startCommand: sh -c 'cd app && node server.mjs'
     envVars:
       - key: NODE_ENV
         value: production
@@ -19,7 +19,7 @@ services:
     name: healthsync-hybrid-api
     env: node
     buildCommand: npm install
-    startCommand: npm run start:hybrid
+    startCommand: sh -c 'cd app && node hybrid-api.js'
     envVars:
       - key: NODE_ENV
         value: production
@@ -29,7 +29,7 @@ services:
     name: healthsync-frontend
     env: node
     buildCommand: npm install
-    startCommand: npm run start:frontend
+    startCommand: sh -c 'cd app && node server-static.mjs'
     envVars:
       - key: NODE_ENV
         value: production
