@@ -71,13 +71,46 @@ app.get('*.html', (req, res, next) => {
 // This must come after HTML handler
 app.use(express.static(__dirname));
 
-// Catch-all for SPA routing - serve index.html
-app.get('*', (req, res) => {
-    // Skip if it's already an HTML file or API endpoint
+// Catch-all for root path and SPA routing - serve index.html
+app.get('/', (req, res) => {
+    const indexPath = __dirname + '/index.html';
+    if (existsSync(indexPath)) {
+        try {
+            let html = readFileSync(indexPath, 'utf8');
+            
+            const configScript = `
+    <script>
+        window.API_CONFIG = {
+            backendApiUrl: '${backendUrl}',
+            hybridApiUrl: '${hybridUrl}'
+        };
+    </script>`;
+            
+            if (html.includes('</head>')) {
+                html = html.replace('</head>', configScript + '</head>');
+            } else if (html.includes('</body>')) {
+                html = html.replace('</body>', configScript + '</body>');
+            }
+            
+            res.setHeader('Content-Type', 'text/html');
+            res.send(html);
+        } catch (error) {
+            console.error('Error reading index.html:', error);
+            res.status(500).send('Internal server error');
+        }
+    } else {
+        res.status(404).send('Not found');
+    }
+});
+
+// Catch-all for other paths - serve index.html for SPA routing
+app.get('*', (req, res, next) => {
+    // Skip if it's already an HTML file or API endpoint (let previous handlers handle these)
     if (req.path.endsWith('.html') || req.path.startsWith('/api/')) {
-        return;
+        return next();
     }
     
+    // For other paths, serve index.html (SPA routing)
     const indexPath = __dirname + '/index.html';
     if (existsSync(indexPath)) {
         try {
