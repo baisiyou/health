@@ -146,10 +146,26 @@ app.get('*', (req, res, next) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Frontend server running on port ${PORT}`);
-    console.log(`Backend API URL: ${backendUrl}`);
-    console.log(`Hybrid API URL: ${hybridUrl}`);
-    console.log(`__dirname: ${__dirname}`);
-    console.log(`index.html exists: ${existsSync(__dirname + '/index.html')}`);
-    console.log(`Current directory files:`, readdirSync(__dirname).slice(0, 10));
+    console.log(`✅ Frontend server running on port ${PORT}`);
+    console.log(`📁 __dirname: ${__dirname}`);
+    console.log(`📄 index.html exists: ${existsSync(__dirname + '/index.html')}`);
+    console.log(`🔗 Backend API URL: ${backendUrl}`);
+    console.log(`🔗 Hybrid API URL: ${hybridUrl}`);
+    
+    // List some files for debugging
+    try {
+        const files = readdirSync(__dirname).filter(f => !f.startsWith('.') && !f.includes('node_modules')).slice(0, 10);
+        console.log(`📂 Directory contents (first 10):`, files);
+    } catch (err) {
+        console.error('Error listing directory:', err);
+    }
+    
+    // Verify index.html
+    const indexPath = __dirname + '/index.html';
+    if (existsSync(indexPath)) {
+        console.log(`✅ index.html found at: ${indexPath}`);
+    } else {
+        console.error(`❌ index.html NOT found at: ${indexPath}`);
+        console.log(`Current directory: ${process.cwd()}`);
+    }
 });
