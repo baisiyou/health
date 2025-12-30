@@ -30,17 +30,22 @@ jobs:
       
       - name: Prepare deployment files
         run: |
-          # Copy root redirect files to app directory
-          cp login.html app/login.html 2>/dev/null || true
-          # Ensure index.html exists in app directory
-          if [ ! -f app/index.html ]; then
-            echo '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0; url=/health/"><title>HealthSync AI</title></head><body><p>Redirecting...</p></body></html>' > app/index.html
+          # Create a deployment directory that includes root redirects
+          mkdir -p _deploy
+          # Copy app directory contents
+          cp -r app/* _deploy/
+          # Copy root redirect files (will be at root of deployed site)
+          if [ -f login.html ]; then
+            cp login.html _deploy/login.html
+          fi
+          if [ -f index.html ]; then
+            cp index.html _deploy/index.html
           fi
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './app'
+          path: './_deploy'
           exclude-paths: |
             node_modules
             *.md
