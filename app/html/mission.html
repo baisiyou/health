@@ -3,16 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="icon" type="image/x-icon" href="/assets/logo.svg" />
+  <link rel="icon" type="image/x-icon" href="../assets/logo.svg" />
   <title>Our Mission - Empathy Canada</title>
-  <link href="/css/styles.css" rel="stylesheet" />
-  <script type="module" src="/js/main.js"></script>
+  <link href="../css/styles.css" rel="stylesheet" />
+  <script src='../js/base-path.js'></script>
+  <script type="module" src="../js/main.js"></script>
 </head>
 <body class="mission-page">
   <!-- Navigation Bar -->
   <div id="navbar-container"></div>
   <script>
-    fetch("/components/navbar.html")
+    // Determine base path for GitHub Pages
+    const basePath = window.location.hostname === 'baisiyou.github.io' ? '/health' : '';
+    fetch(`${basePath}/components/navbar.html`)
       .then((response) => response.text())
       .then((data) => {
         document.getElementById("navbar-container").innerHTML = data;
@@ -69,15 +72,15 @@
     <div class="mission-images-container">
       <!-- First Row - Two images -->
       <div class="mission-images-row">
-        <img src="/assets/Mission 1.png" alt="Healthcare Building" />
-        <img src="/assets/Mission 2.png" alt="Medical Facility" />
+        <img src="../assets/Mission 1.png" alt="Healthcare Building" />
+        <img src="../assets/Mission 2.png" alt="Medical Facility" />
       </div>
 
       <!-- Second Row - Three images -->
       <div class="mission-images-row three-images">
-        <img src="/assets/Mission 3.png" alt="Disease Prevention Data" />
-        <img src="/assets/Mission 4.png" alt="Medical Statistics" />
-        <img src="/assets/Mission 5.png" alt="Healthcare Insights" />
+        <img src="../assets/Mission 3.png" alt="Disease Prevention Data" />
+        <img src="../assets/Mission 4.png" alt="Medical Statistics" />
+        <img src="../assets/Mission 5.png" alt="Healthcare Insights" />
       </div>
     </div>
   </section>
@@ -85,7 +88,9 @@
   <!-- Footer Section -->
   <div id="footer-container"></div>
   <script>
-    fetch("/components/footer.html")
+    // Determine base path for GitHub Pages
+    const basePathFooter = window.location.hostname === 'baisiyou.github.io' ? '/health' : '';
+    fetch(`${basePathFooter}/components/footer.html`)
       .then((response) => response.text())
       .then((data) => {
         document.getElementById("footer-container").innerHTML = data;
