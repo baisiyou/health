@@ -2,7 +2,7 @@
 import express from 'express';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import { readFileSync, existsSync } from 'fs';
+import { readFileSync, existsSync, readdirSync } from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -149,4 +149,7 @@ app.listen(PORT, () => {
     console.log(`Frontend server running on port ${PORT}`);
     console.log(`Backend API URL: ${backendUrl}`);
     console.log(`Hybrid API URL: ${hybridUrl}`);
+    console.log(`__dirname: ${__dirname}`);
+    console.log(`index.html exists: ${existsSync(__dirname + '/index.html')}`);
+    console.log(`Current directory files:`, readdirSync(__dirname).slice(0, 10));
 });
