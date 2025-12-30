@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="/assets/logo.svg">
+    <link rel="icon" type="image/x-icon" href="./assets/logo.svg">
     <title>Login - HealthSync AI</title>
-    <link href="/css/styles.css" rel="stylesheet">
+    <link href="./css/styles.css" rel="stylesheet">
+    <script src='./js/base-path.js'></script>
+    <script src='./js/path-helper.js'></script>
     <style>
         .login-container {
             max-width: 400px;
@@ -121,7 +123,7 @@
         <div id="status" class="status"></div>
         
         <div style="text-align: center; margin-top: 20px;">
-            <p><a href="/" style="color: #007bff; text-decoration: none;">← Back to Home</a></p>
+            <p><a href="./index.html" style="color: #007bff; text-decoration: none;">← Back to Home</a></p>
         </div>
     </div>
 
@@ -217,7 +219,12 @@
                 document.getElementById('status').innerHTML = `✅ Already logged in as ${userData.name}. Redirecting...`;
                 
                 setTimeout(() => {
-                    window.location.href = '/clinical-diagnosis.html';
+                    if (window.redirect) {
+                        window.redirect('/clinical-diagnosis.html');
+                    } else {
+                        const basePath = window.location.hostname === 'baisiyou.github.io' ? '/health' : '';
+                        window.location.href = basePath + '/clinical-diagnosis.html';
+                    }
                 }, 1500);
             }
         });
