@@ -172,7 +172,12 @@
                     
                     // Redirect to Clinical Diagnosis page after 2 seconds
                     setTimeout(() => {
-                        window.location.href = '/clinical-diagnosis.html';
+                        if (window.redirect) {
+                            window.redirect('/clinical-diagnosis.html');
+                        } else {
+                            const basePath = window.location.hostname === 'baisiyou.github.io' ? '/health' : '';
+                            window.location.href = basePath + '/clinical-diagnosis.html';
+                        }
                     }, 2000);
                     return;
                 }
@@ -198,7 +203,12 @@
                     
                     // Redirect to Clinical Diagnosis page after 2 seconds
                     setTimeout(() => {
-                        window.location.href = '/clinical-diagnosis.html';
+                        if (window.redirect) {
+                            window.redirect('/clinical-diagnosis.html');
+                        } else {
+                            const basePath = window.location.hostname === 'baisiyou.github.io' ? '/health' : '';
+                            window.location.href = basePath + '/clinical-diagnosis.html';
+                        }
                     }, 2000);
                     
                 } else {
