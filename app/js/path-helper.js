@@ -17,6 +17,10 @@
     window.resolvePath = function(path) {
         // If path starts with /, prepend basePath
         if (path.startsWith('/')) {
+            // Don't add basePath if it's already there
+            if (path.startsWith(basePath + '/') || path === basePath) {
+                return path;
+            }
             return basePath + path;
         }
         // Otherwise return as-is (already relative)

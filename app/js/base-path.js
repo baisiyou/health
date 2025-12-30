@@ -23,10 +23,22 @@
     
     // Fix all absolute paths in the document after DOM loads
     document.addEventListener('DOMContentLoaded', function() {
+        // Only fix paths if we're on GitHub Pages and basePath is set
+        if (!basePath) return;
+        
+        // Helper function to check if path already has basePath
+        const needsBasePath = function(path) {
+            if (!path || !path.startsWith('/')) return false;
+            if (path.startsWith('//') || path.startsWith('http')) return false;
+            // Don't add basePath if it's already there
+            if (path.startsWith(basePath + '/') || path === basePath) return false;
+            return true;
+        };
+        
         // Fix all <a> tags with href="/..."
         document.querySelectorAll('a[href^="/"]').forEach(link => {
             const href = link.getAttribute('href');
-            if (href !== '/' && !href.startsWith('//') && !href.startsWith('http')) {
+            if (needsBasePath(href)) {
                 link.setAttribute('href', basePath + href);
             }
         });
@@ -34,7 +46,7 @@
         // Fix all <img> tags with src="/..."
         document.querySelectorAll('img[src^="/"]').forEach(img => {
             const src = img.getAttribute('src');
-            if (!src.startsWith('//') && !src.startsWith('http')) {
+            if (needsBasePath(src)) {
                 img.setAttribute('src', basePath + src);
             }
         });
@@ -42,7 +54,7 @@
         // Fix all <link> tags with href="/..."
         document.querySelectorAll('link[href^="/"]').forEach(link => {
             const href = link.getAttribute('href');
-            if (!href.startsWith('//') && !href.startsWith('http')) {
+            if (needsBasePath(href)) {
                 link.setAttribute('href', basePath + href);
             }
         });
@@ -50,7 +62,7 @@
         // Fix all <script> tags with src="/..."
         document.querySelectorAll('script[src^="/"]').forEach(script => {
             const src = script.getAttribute('src');
-            if (!src.startsWith('//') && !src.startsWith('http')) {
+            if (needsBasePath(src)) {
                 script.setAttribute('src', basePath + src);
             }
         });
