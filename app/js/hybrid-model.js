@@ -500,7 +500,7 @@ class HybridModelSystem {
         const html = `
             <div class="hybrid-analysis-card">
                 <h3>🧠 Hybrid Model Disease Diagnosis Analysis</h3>
-                <p class="analysis-subtitle">ClinicalBERT + XGBoost + RAG Fusion Analysis</p>
+                <p class="analysis-subtitle">Hybrid Model Fusion Analysis</p>
                 
                 <div class="analysis-overview">
                     <div class="overall-confidence">

@@ -28,21 +28,10 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
       
-      - name: Prepare deployment files
-        run: |
-          # Create a deployment directory
-          mkdir -p _deploy
-          # Copy app directory contents to _deploy (these will be under /health/)
-          cp -r app/* _deploy/
-          # Create root-level redirect files (these will be at site root, not under /health/)
-          # Note: GitHub Pages deploys repository-name repos under /repository-name/
-          # So we can't easily have root-level redirects with Actions deployment
-          # The redirect files should redirect to /health/ paths
-      
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './_deploy'
+          path: './app'
           exclude-paths: |
             node_modules
             *.md
