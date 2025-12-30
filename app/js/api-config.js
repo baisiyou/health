@@ -5,17 +5,26 @@
 
 class APIConfig {
     constructor() {
-        // Use injected config from server if available, otherwise fallback
+        // Use injected config from server if available (Render deployment)
         if (window.API_CONFIG) {
             this.backendApiUrl = window.API_CONFIG.backendApiUrl;
             this.hybridApiUrl = window.API_CONFIG.hybridApiUrl;
         } else {
-            // Fallback: try to fetch from config endpoint
-            this.loadFromEndpoint();
+            // Check if we're on GitHub Pages
+            const isGitHubPages = window.location.hostname === 'baisiyou.github.io';
             
-            // Or use localhost for development
-            this.backendApiUrl = 'http://localhost:5001';
-            this.hybridApiUrl = 'http://localhost:8000';
+            if (isGitHubPages) {
+                // GitHub Pages: Use Render API URLs directly
+                this.backendApiUrl = 'https://health-1-3gn7.onrender.com';
+                this.hybridApiUrl = 'https://health-2-aw0s.onrender.com';
+            } else {
+                // Local development: try to fetch from config endpoint
+                this.loadFromEndpoint();
+                
+                // Fallback to localhost for development
+                this.backendApiUrl = 'http://localhost:5001';
+                this.hybridApiUrl = 'http://localhost:8000';
+            }
         }
     }
     

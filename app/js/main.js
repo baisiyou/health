@@ -8,24 +8,28 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js";
 window.supabase = null;
 async function initializeSupabase() {
     try {
-        // Use dynamic API config if available
-        const keysUrl = (window.apiConfig && window.apiConfig.getSupabaseKeysUrl()) || 
-                       (window.location.hostname === "localhost" ? "http://localhost:5001/keys" : "/keys");
-        const response = await fetch(keysUrl);
-            const { SUPABASE_URL, SUPABASE_KEY } = await response.json();
-
-            supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-            
-            console.log("Supabase initialized.");
+        // Determine the keys URL based on environment
+        let keysUrl;
+        
+        if (window.apiConfig && window.apiConfig.getSupabaseKeysUrl) {
+            // Use API config (works for both Render and GitHub Pages)
+            keysUrl = window.apiConfig.getSupabaseKeysUrl();
+        } else if (window.location.hostname === "localhost") {
+            // Local development
+            keysUrl = "http://localhost:5001/keys";
+        } else if (window.location.hostname === "baisiyou.github.io") {
+            // GitHub Pages: Use Render Backend API
+            keysUrl = "https://health-1-3gn7.onrender.com/keys";
         } else {
-            const response = await fetch('/api/supabase');
-            const { SUPABASE_URL, SUPABASE_KEY } = await response.json();
-
-            supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-            
-            console.log("Supabase initialized.");
+            // Fallback: try relative path (for Render frontend)
+            keysUrl = "/api/supabase";
         }
-
+        
+        const response = await fetch(keysUrl);
+        const { SUPABASE_URL, SUPABASE_KEY } = await response.json();
+        
+        supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+        console.log("Supabase initialized.");
     } catch (error) {
         console.error("Error initializing Supabase:", error);
     }

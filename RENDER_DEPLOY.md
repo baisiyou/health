@@ -29,8 +29,8 @@
 3. **配置环境变量**
    
    对于 `healthsync-backend-api` 服务，添加以下环境变量：
-   - `SUPABASE_URL`: 你的 Supabase 项目 URL
-   - `SUPABASE_KEY`: 你的 Supabase anon key
+   - `SUPABASE_URL`: https://hzcvnaqracbehsviqvoj.supabase.co
+   - `SUPABASE_KEY`: sb_publishable_cxoW7ilKVMNyJ_W5TV8c7Q_4r9suXUD
    
    可以在 Render Dashboard 的每个服务的 "Environment" 标签页中配置。
 

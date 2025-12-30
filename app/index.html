@@ -7,13 +7,14 @@
 	<meta name="description" content="HealthSync AI - AI-Powered Healthcare Diagnosis Platform">
     <link href="./css/styles.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/c9fbfc084b.js" crossorigin="anonymous"></script>
+    <script src='./js/base-path.js'></script>
     <script type='module' src='./js/main.js'></script>
 	<meta property="og:type" content="website">
 	<meta property="og:title" content="Physician Dashboard">
 	<meta property="og:image:type" content="image/jpeg">
 	<meta property="og:image:width" content="1024">
 	<meta property="og:image:height" content="1024">
-    <link rel="icon" type="image/x-icon" href="/assets/logo.svg">
+    <link rel="icon" type="image/x-icon" href="./assets/logo.svg">
 	<title>HealthSync AI - AI-Powered Healthcare Diagnosis</title>
 </head>
  
@@ -21,7 +22,9 @@
     <!-- Navigation Bar -->
     <div id="navbar-container"></div>
     <script>
-        fetch("/components/navbar.html")
+        // Determine base path for GitHub Pages
+        const basePath = window.location.hostname === 'baisiyou.github.io' ? '/health' : '';
+        fetch(`${basePath}/components/navbar.html`)
             .then(response => response.text())
             .then(data => {
                 document.getElementById("navbar-container").innerHTML = data;
@@ -37,20 +40,22 @@
                 <h1 class="black-heading">HealthSync AI</h1>
                 <h3 class="sub-heading">AI-Powered Healthcare Diagnosis Platform</h3>
                 <div class="auth-buttons">
-                    <a href="/clinical-diagnosis.html" class="btn primary-btn">Start AI Diagnosis</a>
-                    <a href="/login.html" class="btn secondary-btn">Log In</a>
-                    <a href="/register.html" class="btn secondary-btn">Register</a>
+                    <a href="./clinical-diagnosis.html" class="btn primary-btn">Start AI Diagnosis</a>
+                    <a href="./login.html" class="btn secondary-btn">Log In</a>
+                    <a href="./register.html" class="btn secondary-btn">Register</a>
                 </div>
             </div>
             <div class="hero-image">
-                <img src="/assets/Doctor Home Screen.png" alt="Doctor with data charts">
+                <img src="./assets/Doctor Home Screen.png" alt="Doctor with data charts">
             </div>
         </header>
     </div> <!-- End of main-content wrapper -->
 
     <div id="footer-container"></div>
     <script>
-        fetch("/components/footer.html")
+        // Determine base path for GitHub Pages
+        const basePath = window.location.hostname === 'baisiyou.github.io' ? '/health' : '';
+        fetch(`${basePath}/components/footer.html`)
             .then(response => response.text())
             .then(data => {
                 document.getElementById("footer-container").innerHTML = data;
