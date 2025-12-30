@@ -70,6 +70,10 @@ app.get('*.html', (req, res, next) => {
 // Handle root path explicitly - serve index.html
 app.get('/', (req, res) => {
     const indexPath = __dirname + '/index.html';
+    console.log('Root path requested, looking for index.html at:', indexPath);
+    console.log('__dirname is:', __dirname);
+    console.log('File exists:', existsSync(indexPath));
+    
     if (existsSync(indexPath)) {
         try {
             let html = readFileSync(indexPath, 'utf8');
